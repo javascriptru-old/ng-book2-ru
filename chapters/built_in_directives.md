@@ -336,7 +336,7 @@ W> Обратите внимание, что, как и в JavaScript, инде�
 {lang=html}
 <<[code/built-in-directives/src/app/ng-non-bindable-example/ng-non-bindable-example.component.html](code/built-in-directives/src/app/ng-non-bindable-example/ng-non-bindable-example.component.html)
 
-А с атрибутом `ngNonBindable` ng2 не будет компилировать внутри второго элемента `span`', просто его пропустив:
+А с атрибутом `ngNonBindable` ng2 не будет компилировать внутри второго элемента `span`, просто его пропустив:
 
 ![Результат использования ngNonBindable](images/built_in_directives/ng-non-bindable.png)
 
