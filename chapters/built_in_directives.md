@@ -140,9 +140,9 @@ T> Рекомендуем оставлять без кавычек как мож
 
 Здесь мы устанавливаем два свойства: `color` и `background-color`.
 
-Но реальная сила директивы `NgStyle` состоит в использовании динамических значений.
+Но весь потенциал директивы `NgStyle` раскрывается при использовании динамических значений.
 
-В нашем примере, мы определяем для поля ввода с кнопкой установки свойств:
+В нашем примере, мы определяем два поля ввода и кнопку применения свойств:
 
 {lang=html,crop-start-line=56,crop-end-line=66}
 <<[code/built-in-directives/src/app/ng-style-example/ng-style-example.component.html](code/built-in-directives/src/app/ng-style-example/ng-style-example.component.html)
