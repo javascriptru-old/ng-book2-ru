@@ -201,7 +201,7 @@ Let's take these in turn:
 {lang=html,crop-start-line=3,crop-end-line=4}
 <<[code/forms/src/app/demo-form-sku/demo-form-sku.component.html](code/forms/src/app/demo-form-sku/demo-form-sku.component.html)
 
-Изначально у нас есть `#f="ngForm"`. Синтаксис `#v=thing` говорит, что мы хотим создать локальную переменную это этого представления.
+Изначально у нас есть `#f="ngForm"`. Синтаксис `#v=thing` говорит, что мы хотим создать локальную переменную для этого представления.
 
 Создаем алиас для `ngForm` относящийся к переменной `#f` для этого представления. Откуда появился `ngForm`? Из директивы `NgForm`.
 
