@@ -408,3 +408,38 @@ T> Это значит, что у вас может быть форма, к ко
 Ниже представлено изображение того, как должна выглядеть наша форма с проверками:
 
 ![Форма с валидацией](images/forms/demo-form-with-validations-explicit-invalid.png)
+
+Самый гибкий способ обработки отдельных `FormControls` в вашем шаблоне - установить каждый `FormControl` как переменную экземпляра в классе определения компонента. Вот как мы можем настроить `sku` в нашем классе:
+
+{lang=javascript,crop-query=.DemoFormWithValidationsExplicitComponent}
+<<[code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.ts](code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.ts)
+
+Следует отметить, что:
+
+1. Мы устанавливаем `sku: AbstractControl` в верхней части класса и
+2. Мы назначаем `this.sku` после создания `myForm` с помощью `FormBuilder`
+
+Это здорово, потому что мы можем ссылаться на `sku` в любом месте шаблона нашего компонентов. Недостатком является то, что нам нужно настроить переменную экземпляра **для каждого поля в нашей форме**. Для больших форм это может быть весьма затруднительно.
+
+Теперь, когда мы проверили наш `sku`, я хочу обратить ваше внимание на четыре различных способа отобразить его значение в нашем шаблоне::
+
+1. Проверка действительности всей формы и отображение сообщения
+2. Проверка действительности нашего отдельного поля и отображение сообщения
+3. Проверка правильности нашего отдельного поля и окраска поля красным цветом, если оно недействительно
+4. Проверка действительности нашего отдельного поля по конкретному требованию и отображение сообщения
+
+#### Сообщение поля
+
+Мы можем проверить правильность всей нашей формы обратившись к `myForm.valid`:
+
+{lang=html,crop-start-line=20,crop-end-line=21}
+<<[code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html](code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html)
+
+Помните, что `myForm` является `FormGroup`, а `FormGroup` действителен, если все дочерние элементы `FormControl` также действительны.
+
+#### Сообщение поля
+
+Мы также можем отобразить сообщение для конкретного поля `FormControl`, если это поле недействительно:
+
+{lang=html,crop-start-line=14,crop-end-line=17}
+<<[code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html](code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html)
