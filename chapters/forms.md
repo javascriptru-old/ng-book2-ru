@@ -498,3 +498,26 @@ T> Это значит, что у вас может быть форма, к ко
 I> Мы использовали нотацию скобками, т.е. `myForm.controls['sku']`. Мы также можем использовать нотацию точкой, т.е. `myForm.controls.sku`. TypeScript может выдать предупреждение в случае использования нотации с точкой и объект неверно введен.
 
 ### Нестандартные проверки
+
+Нам часто требуются собственные проверки, Давайте разберем, как это сделать.
+
+Чтобы понять, как реализованы валидаторы, давайте посмотрим на `Validators.required` из Angular core:
+
+{lang=javascript}
+    export class Validators {
+      static required(c: FormControl): StringMap<string, boolean> {
+        return isBlank(c.value) || c.value == "" ? {"required": true} : null;
+      }
+
+Валидатор:
+- Принимает `FormControl` в качестве входныъ данных и
+- Возвращает `StringMap<string, boolean>`, где ключ "error code" и значение `true` соответствует ошибке
+
+#### Написание валидатора
+
+Предположим, у нас есть конкретные требования к значению `sku`. Например, значение `sku` должно начинаться с `123`. Для решения этой задачи мы можем написать следующий валидатор:
+
+{lang=javascript,crop-query=.skuValidator}
+<<[code/forms/src/app/demo-form-with-custom-validation/demo-form-with-custom-validation.component.ts](code/forms/src/app/demo-form-with-custom-validation/demo-form-with-custom-validation.component.ts)
+
+Этот валидатор вернет код ошибки `invalidSku`, если значение `control.value` не будет начинаться с `123`.
