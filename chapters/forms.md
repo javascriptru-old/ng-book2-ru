@@ -456,3 +456,30 @@ T> Это значит, что у вас может быть форма, к ко
 Обратите внимание, что у нас есть два условия для установки класса `.error`:`!sku.valid` и `sku.touched`. Идея заключается в том, что мы хотим показать состояние ошибки только в том случае, если пользователь попытался редактировать форму, и теперь она недействительна.
 
 Чтобы проверить, введите некоторые данные в тэг `input` и затем удалите содержимое поля.
+
+#### Специфическая проверка
+
+Поле формы может быть недействительным по многим причинам. Часто мы хотим показать другое сообщение в зависимости от причины неудачной проверки.
+
+Для специфической проверки мы используем метод `hasError`:
+
+{lang=html,crop-start-line=17,crop-end-line=18}
+<<[code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html](code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html)
+
+Обратите внимание, что `hasError` определяется как в `FormControl`, так и в `FormGroup`. Это означает, что вы можете передать второй аргумент для поиска конкретного поля из `FormGroup`. Например, мы можем переписать предыдущий пример следующим образом:
+
+{lang=javascript}
+         <div *ngIf="myForm.hasError('required', 'sku')"
+           class="error">SKU is required</div>
+
+#### Собираем все вместе
+
+Ниже приведен полный листинг кода нашей формы с проверками с набором `FormControl` в виде переменной экземпляра:
+
+{lang=javascript}
+<<[code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.ts](code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.ts)
+
+И шаблон:
+
+{lang=html}
+<<[code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html](code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html)
