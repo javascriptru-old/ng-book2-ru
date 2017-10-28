@@ -443,3 +443,16 @@ T> Это значит, что у вас может быть форма, к ко
 
 {lang=html,crop-start-line=14,crop-end-line=17}
 <<[code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html](code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html)
+
+#### Окраска поля
+
+Я использую класс `.error` из Semantic UI CSS Framework's CSS, что означает, если я добавлю класс `error` к `<div class= "field">`, то он сделает красную обводку у тэга input.
+
+Для этого можно использовать синтаксис для установки условных классов:
+
+{lang=html,crop-start-line=7,crop-end-line=9}
+<<[code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html](code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html)
+
+Обратите внимание, что у нас есть два условия для установки класса `.error`:`!sku.valid` и `sku.touched`. Идея заключается в том, что мы хотим показать состояние ошибки только в том случае, если пользователь попытался редактировать форму, и теперь она недействительна.
+
+Чтобы проверить, введите некоторые данные в тэг `input` и затем удалите содержимое поля.
