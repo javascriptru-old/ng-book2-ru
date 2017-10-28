@@ -521,3 +521,25 @@ I> Мы использовали нотацию скобками, т.е. `myForm
 <<[code/forms/src/app/demo-form-with-custom-validation/demo-form-with-custom-validation.component.ts](code/forms/src/app/demo-form-with-custom-validation/demo-form-with-custom-validation.component.ts)
 
 Этот валидатор вернет код ошибки `invalidSku`, если значение `control.value` не будет начинаться с `123`.
+
+#### Назначаем валидатор для `FormControl`
+
+Теперь нам нужно добавить валидатор в наш `FormControl`. Однако есть одна небольшая проблема: у нас уже есть валидатор для `sku`. Как добавить несколько валидаторов для одного поля?
+
+Для этого мы используем `Validators.compose`:
+
+{lang=javascript,crop-query=context(.compose, 2, 2)}
+<<[code/forms/src/app/demo-form-with-custom-validation/demo-form-with-custom-validation.component.ts](code/forms/src/app/demo-form-with-custom-validation/demo-form-with-custom-validation.component.ts)
+
+`Validators.compose` обертывает два наших валидатора и позволяет назначить их к `FormControl`. `FormControl` не является действительным, если только обе проверки не действительны.
+
+Теперь мы можем использовать новый валидатор в нашем шаблоне:
+
+{lang=html,crop-start-line=19,crop-end-line=20}
+<<[code/forms/src/app/demo-form-with-custom-validation/demo-form-with-custom-validation.component.html](code/forms/src/app/demo-form-with-custom-validation/demo-form-with-custom-validation.component.html)
+
+I> Обратите внимание, что в этом разделе я использую «явную» нотацию добавления переменной экземпляра для каждого `FormControl`. Это означает, что в шаблоне к этой главе, `sku` относится к `FormControl`.
+
+Если вы запустите пример кода, то вы заметите, что если вы введете что-то в поле, проверка `required` будет выполнена, но проверка `invalidSku` может не быть. Это здорово - это значит, что мы можем частично проверить наши поля и показать соответствующие сообщения.
+
+## Отслеживание изменений
