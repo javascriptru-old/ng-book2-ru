@@ -291,11 +291,11 @@ T> Иногда мы хотим сделать _двустороннюю_ свя
 
 ### Используем `FormBuilder`
 
-Мы можем инжектировать `FormBuilder` путем создания аргумента в `constructor` класс нашего комопнента:
+Мы можем инжектировать `FormBuilder` путем создания аргумента в `constructor` класса нашего комопнента:
 
 %% BEGIN_BOOK
 
-W> **Что значит `инжектировать`?** Ранее мы не уделяли внимание понятию dependency injection (DI) или положение DI в иерархии, поэтому последнее предложение может показаться вам несколко непонятным. Многое о dependency injection мы рассматриваем в главе [Dependency Injection](#di). Поэтому, используйте эту главу, если хотите в этом детально разобраться.
+W> **Что значит `инжектировать`?** Ранее мы не уделяли внимание понятию dependency injection (DI) и положению DI в иерархии, поэтому последнее предложение может показаться вам несколко непонятным. Многое о dependency injection мы рассматриваем в главе [Dependency Injection](#di). Поэтому, используйте эту главу, если хотите в этом детально разобраться.
 W>
 W> Если коротко, то Dependency Injection - это способ сообщить Angular, какие зависимости необходимы этому компоненту для нормальной работы.
 
@@ -318,3 +318,93 @@ W> Если коротко, то Dependency Injection - это способ со
 В этом случае, мы создаем один элемент управления `sku` со значением `["ABC123"]` - это означает, что значение по умолчанию для этого элемента будет `"ABC123"`. (Вы могли заметить, что это массив. Это потому, что позже мы добавим дополнительные параметры.)
 
 Теперь, когда у нас есть `myForm`, мы должны ее использовать в нашем шаблоне (т.е. мы должны _связать_ ее в нашим элементом `form`).
+
+### Используем `myForm` в шаблоне
+
+Изменим нашу `<form>`, чтобы использовать `myForm`. Если вы помните, в последнем разделе мы говорили, что `ngForm` применяется автоматически при использовании `FormsModule`. Мы также упомянули, что `ngForm` создает свою собственную `FormGroup`. Тогда, в этом случае, мы  **не** хотим использовать внешнюю `FormGroup`. Вместо этого, мы хотим ипользовать нашу переменную экземпляра `myForm`, которую мы создали с помощью `FormBuilder`. Как мы можем это реализовать?
+
+Angular предоставляет другую директиву, которые мы можем использовать **когда у нас уже есть `FormGroup`**: она называется `formGroup`. И мы используем ее следующим образом:
+
+{lang=html,crop-start-line=2,crop-end-line=3}
+<<[code/forms/src/app/demo-form-sku-with-builder/demo-form-sku-with-builder.component.html](code/forms/src/app/demo-form-sku-with-builder/demo-form-sku-with-builder.component.html)
+
+Здесь мы сообщаем Angular, что хотим использовать `myForm` в качестве `FormGroup` для этой формы.
+
+T> Как говорилось ранее, при использовании `FormsModule`, `NgForm` будет автоматически применен к элементу `<form>`? Есть исключение: `NgForm` не будет применен к `<form>`, у которой есть `formGroup`.
+T>
+T> Если вам интересно, то `selector` для `NgForm` будет:
+T>
+T> ```javascript
+T> form:not([ngNoForm]):not([formGroup]),ngForm,[ngForm]
+T> ```
+T>
+T> Это значит, что у вас может быть форма, к которой не применяется `NgForm`, благодаря атрибуту `ngNoForm`.
+
+Мы также должны изменить `onSubmit`, чтобы использовать `myForm`, в отличие от `f`, потому что сейчас это `myForm` со своими настройками и значениями.
+
+Еще одна вещь, которую нам нужно сделать: связать наш `FormControl` с тэгом `input`. Запомните, что **`ngControl` создает новый объект `FormControl`**, и связывает его с родительским `FormGroup`. Но в этом случае, мы использовали `FormBuilder`, чтобы создать наш `FormControl`.
+
+Когда мы хотим связать **сушествующий `FormControl`** к `input` мы используем `formControl`:
+
+{lang=html,crop-start-line=8,crop-end-line=12}
+<<[code/forms/src/app/demo-form-sku-with-builder/demo-form-sku-with-builder.component.html](code/forms/src/app/demo-form-sku-with-builder/demo-form-sku-with-builder.component.html)
+
+Здесь мы сообщаем директиве `formControl` смотреть на `myForm.controls` и использовать существующий `sku` `FormControl` для этого `input`.
+
+### Давайте попробуем!
+
+Вот как это смотрится вместе:
+
+{lang=javascript}
+<<[code/forms/src/app/demo-form-sku-with-builder/demo-form-sku-with-builder.component.ts](code/forms/src/app/demo-form-sku-with-builder/demo-form-sku-with-builder.component.ts)
+
+и шаблон:
+
+{lang=html}
+<<[code/forms/src/app/demo-form-sku-with-builder/demo-form-sku-with-builder.component.html](code/forms/src/app/demo-form-sku-with-builder/demo-form-sku-with-builder.component.html)
+
+Запомните:
+
+Чтобы создать новые `FormGroup` и `FormControl` неявно используют:
+
+* `ngForm` и
+* `ngModel`
+
+Но, чтобы связать существующие `FormGroup` и `FormControl` используйте:
+
+* `formGroup` и
+* `formControl`
+
+## Добавляем валидацию
+
+Наши пользователи не всегда вводят данные в нужном формате. Если кто-то введет данные в неправильном формате, мы хотим сообщить ему об этом и не допустить отправку данных. Для этого мы используем _валидаторы_.
+
+Валидаторы предоставляются модулем `Validators`. Самый простой валидотор `Validators.required`, который говорит нам о том, что указанное поле является обязательным, иначе `FormControl` будет считаться недействительным.
+
+Чтобы использовать валидаторы, нам нужно сделать следующее:
+
+1. Назначить валидатор для `FormControl` объекта
+2. Проверить состояние валидатора в шаблоне и отреагировать соответствующим образом
+
+Для назначения валидатора объекту `FormControl` достаточно просто передать его в качестве второго аргумента в конструктор `FormControl`:
+
+{lang=javascript}
+    let control = new FormControl('sku', Validators.required);
+
+В нашем случае, поскольку мы используем `FormBuilder` мы будем использовать следующий синтаксис:
+
+{lang=javascript,crop-query=.constructor}
+<<[code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.ts](code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.ts)
+
+Теперь нам нужно использовать нашу проверку в шаблоне. Существует два способы получить значение проверки в шаблоне:
+
+1. Мы можем назначить `FormControl` `sku` переменной экземпляра класса - что требует дополнительных действий, но предоставляет легкий доступ к `FormControl` в шаблоне.
+2. Мы можем получить `FormControl` `sku` из шаблона `myForm`. Для этого потребуется меньше работы в классе определения компонента, но несколько больше в шаблоне .
+
+Чтобы понять разницу, рассмотрим следующие примеры:
+
+### Присваиванием `sku` `FormControl` переменной экземпляра
+
+Ниже представлено изображение того, как должна выглядеть наша форма с проверками:
+
+![Форма с валидацией](images/forms/demo-form-with-validations-explicit-invalid.png)
