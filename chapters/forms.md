@@ -483,3 +483,18 @@ T> Это значит, что у вас может быть форма, к ко
 
 {lang=html}
 <<[code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html](code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.html)
+
+#### Удаление переменной экземпляра `sku`
+
+В приведенном выше примере в качестве переменной экземпляра задается` SKU: AbstractControl'. Часто мы не хотим создавать переменную экземпляра для каждого 'AbstractControl`, так как мы будем ссылаться на этот' FormControl` в нашем шаблоне без переменной экземпляра?
+
+Вместо этого мы можем использовать свойство `myForm.controls`:
+
+{lang=html,crop-start-line=10,crop-end-line=17}
+<<[code/forms/src/app/demo-form-with-validations-shorthand/demo-form-with-validations-shorthand.component.html](code/forms/src/app/demo-form-with-validations-shorthand/demo-form-with-validations-shorthand.component.html)
+
+Таким образом, мы можем получить доступ к элементу управления` SKU', не будучи вынуждены явно добавлять его в качестве переменной экземпляра класса компонента.
+
+I> Мы использовали нотацию скобками, т.е. `myForm.controls['sku']`. Мы также можем использовать нотацию точкой, т.е. `myForm.controls.sku`. TypeScript может выдать предупреждение в случае использования нотации с точкой и объект неверно введен.
+
+### Нестандартные проверки
