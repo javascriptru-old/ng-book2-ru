@@ -603,7 +603,7 @@ W> Не спешите сразу использовать `ngModel`, тольк
 {lang=html,crop-start-line=4,crop-end-line=6}
 <<[code/forms/src/app/demo-form-ng-model/demo-form-ng-model.component.html](code/forms/src/app/demo-form-ng-model/demo-form-ng-model.component.html)
 
-Вот как это выглядит:
+Вот, что у нас получилось:
 
 ![Пример формы с ngModel](images/forms/demo-form-ng-model-submitted.png)
 
