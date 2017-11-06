@@ -474,7 +474,7 @@ T> Это значит, что у вас может быть форма, к ко
 
 #### Собираем все вместе
 
-Ниже приведен полный листинг кода нашей формы с проверками с набором `FormControl` в виде переменной экземпляра:
+Ниже приведен полный листинг кода нашей формы с проверками и набором `FormControl` в виде переменной экземпляра:
 
 {lang=javascript}
 <<[code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.ts](code/forms/src/app/demo-form-with-validations-explicit/demo-form-with-validations-explicit.component.ts)
